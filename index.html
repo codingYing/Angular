@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>angular</title>
+</head>
+<body>
+    <div ng-app="myApp" ng-controller="myCtrl">
+        <div test1 test2></div>
+    </divtest1>
+
+    <script src="node_modules/angular/angular.js"></script>
+
+    <script>
+
+        var myApp = angular.module('myApp', []);
+
+        myApp.factory('fProvider', function () {
+            console.log('my factory');
+            return function () {
+                return 'inner server';
+            }
+        });
+
+        myApp.service('sProvider', function () {
+            this.consoleIt = function () {
+                return 'inner fact';
+            };
+            console.log('server');
+        });
+
+        myApp.directive("test1", function () {
+            console.log("directive setup");
+            return {
+                compile: function () {
+                    console.log('directive compile');
+                }
+            }
+        });
+        
+        myApp.directive("test2", function () {
+            console.log('directive setup2');
+            return {
+                link: function () {
+                    console.log('directive link');
+                }
+            }
+        });
+        
+        myApp.run(function () {
+            console.log("app run");
+        });
+        
+        myApp.config(function () {
+            console.log('app config');
+        });
+        
+        myApp.controller('myCtrl', function ($scope, sProvider, fProvider) {
+            console.log(sProvider.consoleIt());
+            console.log(fProvider());
+            console.log('app controller');
+        })
+
+    </script>
+</body>
+</html>
